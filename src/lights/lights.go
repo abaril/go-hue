@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"github.com/heatxsink/go-hue/src/util"
+	"github.com/abaril/go-hue/src/util"
 )
 
 var (
@@ -59,7 +59,10 @@ func (l *Lights) GetLight(light_id int) Light {
 func (l *Lights) RenameLight(light_id int, light_name string) []util.ApiResponse {
 	url := fmt.Sprintf(get_light_url, l.Hostname, l.Username, light_id)
 	data := fmt.Sprintf("{\"name\": \"%s\"}", light_name)
-	response := util.HttpPut(url, data, "application/json")
+	response, err := util.HttpPut(url, data, "application/json")
+	if err != nil {
+		return []util.ApiResponse {util.ApiResponse{Error: util.ApiResponseError{0, url, err.Error()}}}
+	}
 	var api_response []util.ApiResponse
 	json.Unmarshal(response, &api_response)
 	return api_response
@@ -69,7 +72,10 @@ func (l *Lights) SetLightState(light_id int, state State) []util.ApiResponse {
 	url := fmt.Sprintf(set_light_state_url, l.Hostname, l.Username, light_id)
 	state_json, _ := json.Marshal(&state)
 	data := string(state_json)
-	response := util.HttpPut(url, data, "application/json")
+	response, err := util.HttpPut(url, data, "application/json")
+	if err != nil {
+		return []util.ApiResponse {util.ApiResponse{Error: util.ApiResponseError{0, url, err.Error()}}}
+	}
 	var api_response []util.ApiResponse
 	json.Unmarshal(response, &api_response)
 	return api_response

@@ -8,8 +8,8 @@ demo
 
 setup
 -----
-To run the examples you'll need golang and the "github.com/heatxsink/go-hue" module.
+To run the examples you'll need golang and the "github.com/abaril/go-hue" module.
 
-To install "github.com/heatxsink/go-hue" golang module.
+To install "github.com/abaril/go-hue" golang module.
 
-	$ go get github.com/heatxsink/go-hue/src
+	$ go get github.com/abaril/go-hue/src

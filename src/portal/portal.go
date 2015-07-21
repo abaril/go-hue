@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strings"
 	"encoding/json"
-	"github.com/heatxsink/go-hue/src/util"
+	"github.com/abaril/go-hue/src/util"
 )
 
 var (

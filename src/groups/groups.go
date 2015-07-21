@@ -2,8 +2,8 @@ package groups
 
 import (
 	"fmt"
-	"github.com/heatxsink/go-hue/src/lights"
-	"github.com/heatxsink/go-hue/src/util"
+	"github.com/abaril/go-hue/src/lights"
+	"github.com/abaril/go-hue/src/util"
 	"strconv"
 	"encoding/json"
 )
@@ -61,7 +61,10 @@ func (g *Groups) SetGroup(group_number int, group Group) []util.ApiResponse {
 	url := fmt.Sprintf(set_group_url, g.Hostname, g.Username, group_number)
 	group_json, _ := json.Marshal(&group)
 	data := string(group_json)
-	response := util.HttpPut(url, data, "application/json")
+	response, err := util.HttpPut(url, data, "application/json")
+	if err != nil {
+		return []util.ApiResponse {util.ApiResponse{Error: util.ApiResponseError{0, url, err.Error()}}}
+	}
 	var api_response []util.ApiResponse
 	json.Unmarshal(response, &api_response)
 	return api_response
@@ -71,7 +74,10 @@ func (g *Groups) SetGroupState(group_number int, group_state lights.State) []uti
 	url := fmt.Sprintf(set_group_state_url, g.Hostname, g.Username, group_number)
 	group_state_json, _ := json.Marshal(&group_state)
 	data := string(group_state_json)
-	response := util.HttpPut(url, data, "application/json")
+	response, err := util.HttpPut(url, data, "application/json")
+	if err != nil {
+		return []util.ApiResponse {util.ApiResponse{Error: util.ApiResponseError{0, url, err.Error()}}}
+	}
 	var api_response []util.ApiResponse
 	json.Unmarshal(response, &api_response)
 	return api_response

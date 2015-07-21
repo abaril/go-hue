@@ -46,18 +46,22 @@ func CreateMd5Hash(data string) string {
 	return fmt.Sprintf("%x", md5_hash)
 }
 
-func HttpPut(url string, data string, content_type string) []byte {
+func HttpPut(url string, data string, content_type string) ([]byte, error) {
 	post_body := strings.NewReader(data)
 	request, err := http.NewRequest("PUT", url, post_body)
 	CheckError(err)
 	request.Header.Set("Content-Type", content_type)
+
 	client := http.Client{}
 	response, err := client.Do(request)
-	CheckError(err)
+	if err != nil {
+		return nil, err
+	}
+
 	defer response.Body.Close()
 	contents, err := ioutil.ReadAll(response.Body)
 	CheckError(err)
-	return contents
+	return contents, nil
 }
 
 func HttpPost(url string, data string, content_type string) []byte {
